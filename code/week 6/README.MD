@@ -12,4 +12,4 @@
 - select(C): chọn ra ứng cử viên tiềm năng nhất
 - solution(S): trả về true nếu S là lời giải của bài toán
 - feasible(S): trả về true nếu S không vi phạm ràng buộc nào của bài toán.
-![sơ đồ thuật toán tham lam](image.png)
+- ![sơ đồ chung thuật toán tham lam](image.png)
