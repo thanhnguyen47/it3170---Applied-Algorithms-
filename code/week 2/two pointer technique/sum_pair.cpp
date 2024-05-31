@@ -1,50 +1,48 @@
-/*
-Sum pair of sequence equal to a number
-
-Bài toán:
-Cho dãy a1, .. , an [được sắp xếp tăng dần] (các phần tử đôi một khác nhau)
-Cho trước giá trị Q, hãy đếm số cặp 2 chỉ số i và j sao cho a[i] + a[j] = Q
-
---> Độ phức tạp: O(n)
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
 
+#define MAX_N 1000004
+
 int n;
-int a[1000000];
+int arr[MAX_N];
 int Q;
-int res;
 
-int main() {
+int cnt; // the result
 
+void input()
+{
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-
     cin >> n >> Q;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
+    for (int i = 0; i < n; ++i)
+    {
+        cin >> arr[i];
     }
-
-    // Nếu mảng chưa sắp xếp thì cần sắp xếp mảng
-    sort(a, a+n);
-
+}
+int main()
+{
+    input();
     int i = 0, j = n - 1;
-    while (i < j) {
-        if (a[i] + a[j] == Q) {
-            ++res;
+
+    sort(arr, arr + n);
+    while (i < j)
+    {
+        int s = arr[i] + arr[j];
+        if (s == Q)
+        {
+            ++cnt;
             ++i;
             --j;
         }
-        else if (a[i] + a[j] < Q) {
-            ++i;
-        }
-        else {
+        else if (s > Q)
             --j;
-        }
+
+        else if (s < Q)
+            ++i;
     }
 
-    cout << res << '\n';
+    cout << cnt;
+
     return 0;
 }

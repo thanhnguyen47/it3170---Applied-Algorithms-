@@ -1,36 +1,47 @@
-/*
-Mảng cộng dồn:
-Cho dãy a1, a2, .. an. Thực hiện Q truy vấn, mỗi truy vấn được đặc trưng bởi
-cặp chỉ số (i, j) trong đó cần tính tổng ai + .. + aj 
---> Độ phức tạp: O(n)
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
 
+#define MAX_N 1000004
 int n;
-int a[10000];
+int arr[MAX_N];
 int Q;
 int i, j;
-int s[10000];// lưu mảng cộng dồn
+int s[MAX_N];
 
-int main() {
+void preprocess()
+{
+    s[0] = arr[0];
+    for (int i = 1; i < n; i++)
+    {
+        s[i] = s[i - 1] + arr[i];
+    }
+}
 
+void input()
+{
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
 
     cin >> n;
-    for (int i = 1; i <= n; ++i) {
-        cin >> a[i];
-        s[i] = s[i - 1] + a[i];
+    for (int i = 0; i < n; ++i)
+    {
+        cin >> arr[i];
     }
-    
+
     cin >> Q;
-    while(Q) {
+}
+
+int main()
+{
+    input();
+    preprocess();
+
+    while (Q--)
+    {
         cin >> i >> j;
-        cout << s[j] - s[i - 1] << '\n';
-        --Q;
+        cout << s[j - 1] - s[i - 1 - 1] << '\n';
     }
+
     return 0;
 }
