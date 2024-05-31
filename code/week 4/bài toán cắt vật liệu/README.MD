@@ -10,7 +10,7 @@
 
 > *** Output ***
 > Write 1 if we can perform the cut and write 0, otherwise.
-
+![cut material](image.png)
 > ##### Example 
 > - Input
 > 7 5

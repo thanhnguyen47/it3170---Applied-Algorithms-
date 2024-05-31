@@ -9,6 +9,8 @@ int h[MAX_N], w[MAX_N];
 int x[MAX_N], y[MAX_N], o[MAX_N];
 int mark[MAX_N][MAX_N];
 
+bool flag = false;
+
 void input()
 {
     ios_base::sync_with_stdio(0);
@@ -45,11 +47,6 @@ void doMark(int vh, int vw, int hk, int wk, bool markVal)
         }
     }
 }
-
-void showSolution()
-{
-    cout << 1;
-}
 void Try(int k)
 {
     for (int vo = 0; vo <= 1; ++vo)
@@ -74,7 +71,7 @@ void Try(int k)
 
                     if (k == n)
                     {
-                        showSolution();
+                        flag = true;
                         return;
                     }
                     else
@@ -91,6 +88,6 @@ int main()
 {
     input();
     Try(1);
-
+    cout << flag ? 1 : 0;
     return 0;
 }

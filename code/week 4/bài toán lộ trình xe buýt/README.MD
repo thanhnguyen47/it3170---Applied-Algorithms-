@@ -12,7 +12,7 @@
 > **Output**
 > Unique line contains the length of the shortest route.
 
-
+![cbus](image.png)
 > ##### Example #####
 > - *Input*
 > 3  2
