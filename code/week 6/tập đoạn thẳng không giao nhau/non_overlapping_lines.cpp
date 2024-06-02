@@ -2,7 +2,7 @@
 using namespace std;
 
 #define pii pair<int, int>
-#define MAX_N 1000
+#define MAX_N 10000
 
 int n;
 pii jobs[MAX_N]; // {start, finish}
@@ -13,6 +13,8 @@ void input()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
+    cout.tie(0);
+
     cin >> n;
     for (int i = 0; i < n; ++i)
     {
@@ -20,26 +22,23 @@ void input()
     }
 }
 
-bool compare(pii a, pii b)
+bool check(pii a)
 {
-    return a.second < b.second;
-}
-
-bool check(pii job_i)
-{
-    for (auto job : jobs)
+    for (auto b : selectedJobs)
     {
-        if ((job.first < job_i.first && job_i.first < job.second) || (job.first < job_i.second && job_i.second < job.second))
-        {
+        if (!(a.first > b.second || b.first > a.second))
             return false;
-        }
     }
     return true;
 }
 
-void solve()
+/*
+Chiến lược: sắp xếp các job (tập ứng cử viên) theo thứ tự job kết thúc sớm hơn xét trước.
+*/
+void greedy()
 {
-    sort(jobs, jobs + n, compare);
+    sort(jobs, jobs + n, [](pii a, pii b)
+         { return a.second < b.second; });
 
     for (int i = 0; i < n; ++i)
     {
@@ -53,8 +52,10 @@ void solve()
 int main()
 {
     input();
+    greedy();
 
-    solve();
-
-    return 0;
+    for (auto job : selectedJobs)
+    {
+        cout << job.first << ' ' << job.second << '\n';
+    }
 }

@@ -1,1 +1,1 @@
-- ![đề bài](image.png)
+> ![đề bài](image.png)

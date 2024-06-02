@@ -2,16 +2,16 @@
 using namespace std;
 
 #define pii pair<int, int>
-const int N = 1000;
+#define MAX_N 1000
 
 int n, b;
-pii items[N]; // first is value and second is weight
-// int cur;      // current value of the knapsack
+pii items[MAX_N]; // first is value and second is weight.
 
 void input()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
+    cout.tie(0);
 
     cin >> n >> b;
     for (int i = 0; i < n; ++i)
@@ -20,55 +20,67 @@ void input()
     }
 }
 
-// Greedy1: Sắp xếp các đồ vật theo thứ tự không tăng của giá trị
-bool compare1(pii a, pii b)
+// sắp xếp theo thứ tự giá trị không tăng của đồ vật.
+int greedy1()
 {
-    return (a.first > b.first);
-}
-// Greedy2: Sắp xếp các đồ vật theo thứ tự không giảm của trọng lượng
-bool compare2(pii a, pii b)
-{
-    return a.second < b.second;
-}
-
-// Greedy3: Sắp xếp các đồ vật theo thứ tự không tăng của giá trị một đơn vị trọng lượng (Ci/Wi)
-bool compare3(pii a, pii b)
-{
-    return 1.0 * a.first / a.second > 1.0 * b.first / b.second;
-}
-
-int greedy(int n, int b, pii items[], bool (*func_ptr)(pii, pii)) // sử dụng con trỏ hàm.
-{
-    int cur = 0;
-
-    sort(items, items + n, func_ptr);
+    int curVal = 0, curWeight = b;
+    sort(items, items + n, [](pii a, pii b)
+         { return a.first < b.first; });
 
     for (int i = 0; i < n; ++i)
     {
-        if (items[i].second <= b)
+        if (items[i].second < curWeight)
         {
-            cur += items[i].first;
-            b -= items[i].second;
+            curVal += items[i].first;
+            curWeight -= items[i].second;
         }
     }
-
-    return cur;
+    return curVal;
 }
 
-// Greedy4: là max của một trong 3 lời giải trên. (lời giải tối ưu nhất tìm được )
+// sắp xếp theo thứ tự trọng lượng không giảm của đồ vật.
+int greedy2()
+{
+    int curVal = 0, curWeight = b;
+    sort(items, items + n, [](pii a, pii b)
+         { return a.second > b.second; });
 
+    for (int i = 0; i < n; ++i)
+    {
+        if (items[i].second < curWeight)
+        {
+            curVal += items[i].first;
+            curWeight -= items[i].second;
+        }
+    }
+    return curVal;
+}
+
+// sắp xếp theo thứ tự giá trị trên một đơn vị trọng lượng không tăng của đồ vật.
+int greedy3()
+{
+    int curVal = 0, curWeight = b;
+    sort(items, items + n, [](pii a, pii b)
+         { return a.first / a.second > b.first / b.second; });
+
+    for (int i = 0; i < n; ++i)
+    {
+        if (items[i].second < curWeight)
+        {
+            curVal += items[i].first;
+            curWeight -= items[i].second;
+        }
+    }
+    return curVal;
+}
+
+int greedy4()
+{
+    return max(max(greedy1(), greedy2()), greedy3());
+}
 int main()
 {
     input();
 
-    int f1 = greedy(n, b, items, compare1);
-    int f2 = greedy(n, b, items, compare2);
-    int f3 = greedy(n, b, items, compare3);
-
-    cout << f1 << endl;
-    cout << f2 << endl;
-    cout << f3 << endl;
-    cout << max(max(f1, f2), f3) << endl;
-
-    return 0;
+    cout << greedy4();
 }

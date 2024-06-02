@@ -180,3 +180,6 @@ int main()
     cout << f_opt << '\n';
     return 0;
 }
+
+
+// Another way : Greedy - week 6

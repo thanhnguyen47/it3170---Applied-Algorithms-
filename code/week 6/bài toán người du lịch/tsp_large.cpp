@@ -1,13 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX_N 1004
-#define INF 1e9
+#define MAX_N 10000
 
 int n;
 int c[MAX_N][MAX_N];
-vector<int> x;
-int f, f_opt = INF;
+int f, f_opt = INT_MAX;
+vector<int> x, x_opt;
 set<int> C;
 
 void input()
@@ -15,85 +14,80 @@ void input()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-
     cin >> n;
-    for (int i = 0; i < n; ++i)
+    for (int i = 1; i <= n; ++i)
     {
-        for (int j = 0; j < n; ++j)
+        for (int j = 1; j <= n; ++j)
         {
             cin >> c[i][j];
         }
     }
+}
 
-    for (int i = 0; i < n; ++i)
+void init()
+{
+    for (int i = 1; i <= n; ++i)
     {
         C.insert(i);
     }
 }
-
-int select(int cur, set<int> C)
+int select(set<int> C)
 {
+    int minC = INT_MAX;
+    int last = x[x.size() - 1];
     int sel = -1;
-    int _min = INF;
     for (set<int>::iterator it = C.begin(); it != C.end(); it++)
     {
-        if (_min > c[cur][*it])
+        if (minC > c[last][*it])
         {
+            minC = c[last][*it];
             sel = *it;
-            _min = c[cur][*it];
         }
     }
 
-    // C.erase(sel);
     return sel;
 }
 
 void greedy(int start, set<int> C)
 {
-    int cur = start;
-    vector<int> route;
+    C.erase(start);
     f = 0;
-    route.clear();
-    route.push_back(cur);
-    C.erase(cur);
-    while (C.size() != 0)
+    x.clear();
+    x.push_back(start);
+
+    while (C.size())
     {
-        int sel = select(cur, C);
-        f += c[cur][sel];
-        route.push_back(sel);
-        cur = sel;
+        int sel = select(C);
+
+        int last = x[x.size() - 1];
+        x.push_back(sel);
+        f += c[last][sel];
         C.erase(sel);
     }
-    f += c[cur][0];
-    if (f < f_opt)
+    if (f_opt > f + c[x[n - 1]][x[0]])
     {
-        f_opt = f;
-        x.clear();
-        for (auto i : route)
+        f_opt = f + c[x[n - 1]][x[0]];
+        x_opt.clear();
+        for (int i = 0; i < n; i++)
         {
-            x.push_back(i);
+            x_opt.push_back(x[i]);
         }
-    }
-}
-
-void solution()
-{
-    cout << n << '\n';
-    // cout << f_opt << '\n';
-    for (int i = 0; i < n; i++)
-    {
-        cout << x[i] + 1 << ' ';
     }
 }
 
 int main()
 {
     input();
-    for (int i = 0; i < n; ++i)
+    init();
+    for (int i = 1; i <= n; ++i)
     {
         greedy(i, C);
     }
 
-    solution();
+    cout << n << '\n';
+    for (int a : x_opt)
+    {
+        cout << a << ' ';
+    }
     return 0;
 }

@@ -5,8 +5,8 @@ using namespace std;
 
 int n;
 int arr[MAX_N];
-int max_seq[MAX_N];
-bool mark[MAX_N];
+int max_seq[MAX_N]; // lưu giá trị tổng đoạn con lớn nhất kết thúc tại arr[i]
+bool mark[MAX_N]; // đánh dấu đã có tổng giá trị đoạn con lớn nhất kết thúc tại arr[i] hay chưa.
 
 int maxSum(int i)
 {
